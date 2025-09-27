@@ -60,6 +60,20 @@
     color: white;
   }
 
+  #enter-your-campus-id{
+    text-shadow:
+      -3px -3px 1em black,
+      3px -3px 1em black,
+      -3px 3px 1em black,
+      3px 3px 1em black;
+    color: white;
+  }
+
+  #invalid-format-text {
+    color: red;
+    font-weight: bold;
+  }
+
   #inner-cover {
     display: inline;
   }

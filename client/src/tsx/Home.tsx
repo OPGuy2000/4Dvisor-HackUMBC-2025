@@ -9,13 +9,13 @@ const Home: React.FC = () => {
       <Header />
       <div id="cover-container">
         <div id="discoverText" className="cover-item">
-          DISCOVER <br /> WHAT YOU <br />
-          <div id="crave">CRAVE</div>
+          <div id="discover">DISCOVER <br /> YOUR <br /> </div>
+          <div id="crave">ACADEMIC FUTURE</div>
         </div>
         <div className="cover-item" id="inner-cover">
           <div id="cover-paragraph">
-            Our state of the art recommendation engine finds the foods around you to satisfy that craving.
-            Completely tailored to your tastes and history. Start finding your next meal today!
+            Our state of the art advisor calculates the best classes for you based on your past classes and your intended major.
+            You can also see internships and research oppertunities, or see what you have to do to change your major in case you want to jump ship.
           </div>
           <br />
           <button id="tryit-button" type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signInPrompt">

@@ -6,13 +6,13 @@
   }
 
   #fast {
-    color: orange;
-    fill: orange;
+    color: red;
+    fill: red;
   }
   :root[data-bs-theme="light"] #theme-button {
     color: #333;
   }
 
   :root[data-bs-theme="dark"] #theme-button {
-    color: orange;
+    color: red;
   }

@@ -3,6 +3,7 @@ import { useState, useEffect} from "react";
 import '../css/Header.css';
 
 import fastText from '../assets/fast.svg';
+import advisorLogo from '../assets/4dvisor.svg';
 
 const Header: React.FC = () => {
   const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
@@ -80,7 +81,7 @@ const Header: React.FC = () => {
             id="navbar-toggler"
           >
             <div>
-              <div id="fast">Fast</div>Eats
+              <img src={advisorLogo} alt="4dvisor Logo" id="fast" style={{ height: "2em", color: "blue"}} />
             </div>
           </button>
 

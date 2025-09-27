@@ -28,12 +28,20 @@
   }
 
   #crave {
-    color: orange;
+    color: red;
     text-shadow:
       -1px -1px 1em black,
       1px -1px 1em black,
       -1px 1px 1em black,
       1px 1px 1em black;
+  }
+
+  #discover {
+    text-shadow:
+      -2px -2px 1em rgb(66, 66, 66),
+      2px -2px 1em rgb(66, 66, 66),
+      -2px 2px 1em rgb(66, 66, 66),
+      2px 2px 1em rgb(66, 66, 66);
   }
 
   #tryit-button {
@@ -58,7 +66,7 @@
 
   
 
-  background-image: url('../src/assets/food_background.jpg');
+  background-image: url('../src/assets/background.jpg');
     background-size: cover;
 
   .cover-item {

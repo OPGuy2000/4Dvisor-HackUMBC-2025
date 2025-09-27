@@ -1,0 +1,18 @@
+#navbar-toggler {
+    font-family: "Bungee", sans-serif;
+    font-size: 1.5rem;
+    align-items: center;
+    display: flex;
+  }
+
+  #fast {
+    color: orange;
+    fill: orange;
+  }
+  :root[data-bs-theme="light"] #theme-button {
+    color: #333;
+  }
+
+  :root[data-bs-theme="dark"] #theme-button {
+    color: orange;
+  }

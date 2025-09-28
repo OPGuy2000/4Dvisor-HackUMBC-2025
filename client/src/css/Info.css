@@ -1,0 +1,17 @@
+body {
+    background-image: none;
+}
+
+.splitscreen-half{
+    width: 50%;
+    margin: 2em;
+    /* border-style: dashed; */
+
+}
+
+.rounded-image {
+border-radius: 15em; 
+width: 300px;
+height: auto; 
+}
+

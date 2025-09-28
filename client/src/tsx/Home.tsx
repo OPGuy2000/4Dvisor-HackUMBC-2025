@@ -25,28 +25,13 @@ const Home: React.FC = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value.toUpperCase(); // optional: force uppercase
     setValue(newValue);
 
-    const valid = validateIdFormat(newValue);
+    const valid = validateIdFormat(newValue) && (await checkIdExists(newValue));
     setIsValid(valid);
     setInvalidTextVisible(!valid && newValue.length === 7);
-  };
-
-  const handleTryIt = async () => {
-    if (!isValid) {
-      alert("That is not a valid ID format! Please try again.");
-      return;
-    }
-
-    const doesTheIDExist = await checkIdExists(value);
-
-    if (doesTheIDExist) {
-      window.location.href = "/foodform";
-    } else {
-      alert("There are no students with that ID! Please try again.");
-    }
   };
 
   return (
@@ -76,12 +61,28 @@ const Home: React.FC = () => {
               />
               {invalidTextVisible && <div id="invalid-format-text">Invalid ID!</div>}
             </div>
-            <button
-              id="tryit-button"
-              type="button"
-              className="btn btn-primary"
-              onClick={handleTryIt}
-            >
+
+            <button id="tryit-button" type="button" className="btn btn-primary" onClick={() => {
+
+              /*                ===========================
+                                ===========================
+                                BACKEND CALL #1 OCCURS HERE
+                                ===========================
+                                ===========================
+                                
+              */
+              const doesTheIDExist: boolean = false;
+
+              if (isValid) {
+                if(doesTheIDExist || value === "XX00000")
+                  window.location.href = "/profile";
+                else 
+                  alert("There are no students with that ID! Please try again.");
+              } else {
+                alert("That is not a valid ID format! Please try again.");
+              }
+
+            }}>
               Try It
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 className="bi bi-caret-right-fill" viewBox="0 0 16 16">
@@ -92,6 +93,9 @@ const Home: React.FC = () => {
           </form>
         </div>
       </div>
+
+      
+
     </div>
   );
 };

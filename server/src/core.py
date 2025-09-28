@@ -95,6 +95,7 @@ def get_student(sid):
         d.id AS degreeId,
         d.coreCreditsRequired AS coreCreditsRequired,
         d.electiveCreditsRequired AS electiveCreditsRequired,
+        s.enrollmentDate AS enrollmentDate,
         s.expectedGraduation AS expectedGraduation,
         s.learningStyle AS learningStyle,
         creditsCompleted,

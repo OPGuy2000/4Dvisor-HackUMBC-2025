@@ -7,45 +7,77 @@ import RadialCircle from '../components/RadialCircle';
 import Carousel from "../components/Carousel";
 import type { TermObject, Course } from "../components/Carousel";
 
+type Student = {
+    name: string;
+    degreeId: string;
+    coreCreditsRequired: number;
+    electiveCreditsRequired: number;
+    expectedGraduation: string;
+    enrollmentDate: string;
+    learningStyle: string;
+    creditCompleted: number;
+    requirementsCompleted: number;
+    totalRequirements: number;
+    percentRequirementsCompleted: number;
+}
+
+function transformSemesters(data) {
+  const startYear = 2025; // starting academic year
+  return data.semesters.map((sem, idx: number) => {
+    // alternate between Fall / Spring
+    const term = idx % 2 === 0 ? "Fall" : "Spring";
+    const year = startYear + Math.floor(idx / 2);
+    const semesterName = `${term} ${year}`;
+
+    // restructure courses
+    const courses = sem.courses.map(c => [
+      c.courseId,
+      c.courseName,
+      c.credits,
+      c.requirementGroupId?.startsWith("REQ-CORE") || false
+    ]);
+
+    return { [semesterName]: courses };
+  });
+}
+
 const Info: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const coursePlan: TermObject[] = [
-        {
-            "Fall 2025": [
-                ["CLAS170", "desc", 3, true],
-                ["ENES100", "desc", 3, false],
-                ["CHEM135", "desc", 3, true],
-                ["CHEM145", "desc", 3, true],
-                ["CHEM167", "desc", 3, true],
-            ]
-        },
-        {
-            "Spring 2026": [
-                ["MATH141", "desc", 4, true],
-                ["PHYS161", "desc", 3, true],
-                ["PHYS167", "desc", 1, true]
-            ]
-        }
-    ];
-
-    const [creditCompleted, setCreditCompleted] = useState(85);
-    const [degreeReqsCompleted, setDegreeReqsCompleted] = useState(45);
+    const [coursePlan, setCoursePlan] = useState<TermObject[]>([]);
+    const [student, setStudent] = useState<Student>({
+        name: "string",
+        degreeId: "safd",
+        coreCreditsRequired: 21,
+        electiveCreditsRequired: 23,
+        expectedGraduation: "string",
+        enrollmentDate: "string",
+        learningStyle: "string",
+        creditCompleted: 32,
+        requirementsCompleted: 32,
+        totalRequirements: 23,
+        percentRequirementsCompleted: 0.7
+    });
 
     // STATE TO STORE SELECTED COURSE FOR MODAL
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
     useEffect(() => {
+        //  console.log("hel")
         const fetchData = async () => {
           try {
+           
             const id = searchParams.get("Id");
-            const response = await fetch(`http://localhost:8000/api/student/${id}`); // Replace with your API endpoint
+            const response = await fetch(`http://localhost:8000/student/${id}`);
+            const response2 = await fetch(`http://localhost:8000/plan/${id}`);
+        
+            setCoursePlan(transformSemesters(await response2.json()))
+
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
-            setCreditCompleted(data.creditsCompleted);
-            setDegreeReqsCompleted(data.percentRequirementsCompleted);
+            const student = await response.json();
+            setStudent(student);
           } catch (error) {
             console.error('Error fetching data:', error);
           } 
@@ -75,16 +107,16 @@ const Info: React.FC = () => {
                             <h6 className="card-subtitle mb-2 text-body-secondary">ID: XX00000</h6>
                             <img className="rounded-image" src={teja} style={{ width: "10em", height: "10em" }} />
                             <p className="card-text">
-                                <b>Major:</b> Computer Science<br />
-                                <b>Enrollment Date:</b> August 27 2025<br />
-                                <b>Expected Graduation:</b> May 2029
+                                <b>Major:</b> {student.degreeId}<br />
+                                <b>Enrollment Date:</b> {student.enrollmentDate}<br />
+                                <b>Expected Graduation:</b> {student.expectedGraduation}
                             </p>
-                            <RadialCircle progress={creditCompleted} size={120} strokeWidth={12} fillColor={numberToColor(creditCompleted)}>
-                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{creditCompleted}%</span><br />
+                            <RadialCircle progress={student.creditCompleted} size={120} strokeWidth={12} fillColor={numberToColor(student.creditCompleted)}>
+                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.creditCompleted}%</span><br />
                                 <span style={{ fontSize: "10px", fontWeight: "bold" }}>Credits 102/120</span>
                             </RadialCircle>
-                            <RadialCircle progress={degreeReqsCompleted} size={120} strokeWidth={12} fillColor={numberToColor(degreeReqsCompleted)}>
-                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{degreeReqsCompleted}%</span><br />
+                            <RadialCircle progress={student.percentRequirementsCompleted} size={120} strokeWidth={12} fillColor={numberToColor(student.percentRequirementsCompleted)}>
+                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.percentRequirementsCompleted}%</span><br />
                                 <span style={{ fontSize: "10px", fontWeight: "bold" }}>Degree Reqs 36/80</span>
                             </RadialCircle>
                         </div>

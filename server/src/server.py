@@ -27,6 +27,10 @@ def api_plan(sid):
     return jsonify(core.four_year_plan(sid))
 
 
+@app.route("/ai-insights/<sid>")
+def ai_insights(sid):
+    return jsonify(core.ai_call(sid))
+
 @app.route("/api/student/<sid>/opportunity")
 def api_opportunity(sid):
     return jsonify (core.opportunity_recommender(sid))

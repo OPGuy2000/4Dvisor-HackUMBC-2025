@@ -88,8 +88,8 @@ const Info: React.FC = () => {
                 setAiLoading(true);
                 const aiResponse = await fetch(`http://localhost:8000/ai-insights/${id}`);
                 if (aiResponse.ok) {
-                    const aiData = await aiResponse.json();
-                    setAiInsights(aiData.insights);
+                    const aiBody = await aiResponse.text();
+                    setAiInsights(aiBody);
                 } else {
                     setAiInsights("Could not fetch AI insights.");
                 }
@@ -172,7 +172,7 @@ const Info: React.FC = () => {
                                 <span className="visually-hidden">Loading...</span>
                             </div>
                         ) : null}
-                        <p id="advisor-output">{aiInsights || "The Advisor is thinking..."}</p>
+                        <p id="advisor-output">{aiInsights}</p>
                     </div>
                     <div className='information-child' id="internships-research">
                         <h1>Internships</h1>

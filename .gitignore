@@ -29,3 +29,4 @@ build
 *.egg-info
 .venv
 __pycache__
+.env

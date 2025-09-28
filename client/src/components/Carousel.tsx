@@ -27,6 +27,20 @@ const Carousel: React.FC<CarouselProps> = ({ coursePlan }) => {
                     key={clsIndex}
                     type="button"
                     className="list-group-item list-group-item-action"
+                    data-classname={cls[0]}
+                    data-desc={cls[1]}
+                    data-credits={cls[2]}
+                    data-ismajor={cls[3]}
+                    onClick={(e) => {
+                      const target = e.currentTarget;
+                      const classData = {
+                        name: target.dataset.classname,
+                        desc: target.dataset.desc,
+                        credits: Number(target.dataset.credits),
+                        isMajor: target.dataset.ismajor === "true",
+                      };
+                      console.log("Clicked class data:", classData);
+                    }}
                   >
                     {cls[0]}
                   </button>

@@ -22,6 +22,22 @@ type Student = {
     percentRequirementsCompleted: number;
 }
 
+type Opportunity = {
+    active: boolean
+    company_name: string,
+    company_url: string,
+    date_posted: number,
+    date_updated: number,
+    id: string,
+    is_visible: boolean,
+    locations: string[],
+    source: string,
+    sponsorship: string,
+    terms: string[],
+    title: string,
+    url: string
+}
+
 function transformSemesters(data) {
     const startYear = 2025; // starting academic year
     return data.semesters.map((sem, idx: number) => {
@@ -61,32 +77,44 @@ const Info: React.FC = () => {
         percentRequirementsCompleted: 0.7
     });
 
+    const [opportunities, setOpportunities] = useState<Opportunity[]>();
+
     // STATE TO STORE SELECTED COURSE FOR MODAL
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
+
     useEffect(() => {
-        //  console.log("hel")
         const fetchData = async () => {
             try {
 
                 const id = searchParams.get("Id");
                 const response = await fetch(`http://localhost:8000/student/${id}`);
                 const response2 = await fetch(`http://localhost:8000/plan/${id}`);
+                const response3 = await fetch(`http://127.0.0.1:8000/api/student/${id}/opportunity`);
 
+                const student = await response.json();
+                setStudent(student);
                 setCoursePlan(transformSemesters(await response2.json()))
+                setOpportunities(await response3.json())
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const student = await response.json();
-                // console.log(student.creditCompleted)
-                setStudent(student);
+                
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         fetchData();
     }, []);
+
+    const listOpportunities = opportunities?.filter(o => o.active).map(opportunity =>
+        <div className="card-body">
+            <h5 className="card-title"><a href='https://www.google.com'>{opportunity.company_name} - {opportunity.title}</a></h5>
+            <h6 className="card-subtitle mb-2 text-body-secondary">Posted: {String(opportunity.date_posted).slice(4,5)}/{String(opportunity.date_posted).slice(5,7)}/{String(opportunity.date_posted).slice(7,9)}</h6>
+            <p className="card-text">Location: {opportunity.locations.join(",")} <br></br>Term: {opportunity.terms.join(",")}</p>
+        </div>
+    )
 
     const numberToColor = (num: number): string => {
         switch (true) {
@@ -160,25 +188,7 @@ const Info: React.FC = () => {
                     <div className='information-child' id="internships-research">
                         <h1>Internships</h1>
                         <div className="card interncard" style={{ width: "18rem" }}>
-                            <div className="card-body">
-                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
-                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD <br></br>Term: Winter 2025-26</p>
-                            </div>
-                        </div>
-                        <div className="card interncard" style={{ width: "18rem" }}>
-                            <div className="card-body">
-                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
-                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD <br></br>Term: Summer 2026</p>
-                            </div>
-                        </div>
-                        <div className="card interncard" style={{ width: "18rem" }}>
-                            <div className="card-body">
-                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
-                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD <br></br>Term: FY 2026</p>
-                            </div>
+                            {listOpportunities}
                         </div>
                     </div>
                 </div>

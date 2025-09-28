@@ -1,22 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bungee&display=swap');
 
-
 .Home {
-  
 
   #cover-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-  }
-
-  
-
-  #rightArrow {
-    vertical-align: middle;
-    filter: invert(1);
+    height: 88.8vh;
   }
 
   #discoverText {
@@ -24,24 +14,16 @@
     font-size: 5rem;
     text-align: left;
     line-height: 1.2;
-    color: black;
+    color: #5a4e3c; /* warm brown */
   }
 
   #crave {
-    color: red;
-    text-shadow:
-      -1px -1px 1em black,
-      1px -1px 1em black,
-      -1px 1px 1em black,
-      1px 1px 1em black;
+    color: #f7d370; /* golden yellow */
+    text-shadow: 0 0 10px #5a4e3c;
   }
 
   #discover {
-    text-shadow:
-      -2px -2px 1em rgb(66, 66, 66),
-      2px -2px 1em rgb(66, 66, 66),
-      -2px 2px 1em rgb(66, 66, 66),
-      2px 2px 1em rgb(66, 66, 66);
+    text-shadow: 0 0 10px #f7d370;
   }
 
   #tryit-button {
@@ -49,28 +31,30 @@
     padding: 0.5em;
     text-align: center;
     align-items: center;
+    background-color: #f7d370; /* golden yellow button */
+    color: #5a4e3c; /* warm brown text */
+    border: none;
+    border-radius: 0.75em;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  #tryit-button:hover {
+    transform: translateY(-2px);
+    background-color: #fce78c;
   }
 
   #cover-paragraph {
-    text-shadow:
-      -3px -3px 1em black,
-      3px -3px 1em black,
-      -3px 3px 1em black,
-      3px 3px 1em black;
-    color: white;
+    color: #5a4e3c;
+    text-shadow: 0 0 15px #f7d370;
+    /* background-color: #f7d3705a; */
   }
 
-  #enter-your-campus-id{
-    text-shadow:
-      -3px -3px 1em black,
-      3px -3px 1em black,
-      -3px 3px 1em black,
-      3px 3px 1em black;
-    color: white;
+  #enter-your-campus-id {
+    color: #5a4e3c;
   }
 
   #invalid-format-text {
-    color: red;
+    color: #d9534f; /* slightly warm red */
     font-weight: bold;
   }
 
@@ -78,14 +62,17 @@
     display: inline;
   }
 
-  
-
   background-image: url('../src/assets/background.jpg');
-    background-size: cover;
+  background-size: cover;
+  background-blend-mode: lighten;
 
   .cover-item {
     max-width: 40%;
     margin: 1em;
+  }
+
+  #discoverText{
+    
   }
 
   #root {
@@ -103,34 +90,19 @@
   }
 
   .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
   }
 
   .logo.react:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
-  }
-
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    a:nth-of-type(2) .logo {
-      animation: logo-spin infinite 20s linear;
-    }
   }
 
   .card {
     padding: 2em;
+    background-color: #fff6d5; /* light warm card */
+    color: #5a4e3c;
+    border-radius: 1.5em;
   }
 
   .read-the-docs {
-    color: #888;
+    color: #5a4e3c;
   }
 }

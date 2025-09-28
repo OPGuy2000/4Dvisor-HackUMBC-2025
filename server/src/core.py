@@ -15,10 +15,12 @@ driver = GraphDatabase.driver(
 
 def list_students():
     query = """
-    MATCH (s:Student)
-    RETURN s.id AS id, s.name AS name, s.expectedGraduation AS expectedGraduation
+    MATCH (s:Student)-[:PURSUING]->(d:Degree)
+    RETURN s.id AS id, s.name AS name, s.expectedGraduation AS expectedGraduation, d.name AS degree
     ORDER BY s.name
     """
+    with driver.session() as session:
+        return [dict(record) for record in session.run(query)]
 
 def four_year_plan(sid, major):
     query = """

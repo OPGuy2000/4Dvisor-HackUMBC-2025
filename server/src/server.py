@@ -24,6 +24,10 @@ def api_plan():
     major = request.args.get("major")
     return jsonify(core.four_year_plan(sid, major))
 
+@app.route("/api/student/<sid>/opportunity")
+def api_opportunity(sid):
+    return jsonify (core.opportunity_recommender(sid))
+
 @app.route("/api/switch", methods=["GET"])
 def api_switch():
     sid = request.args.get("sid")

@@ -1,3 +1,8 @@
+import requests
+import json
+
+from rapidfuzz import fuzz, process
+
 import os
 
 from dotenv import load_dotenv
@@ -54,7 +59,6 @@ def list_students():
 def four_year_plan(sid, major):
     query = """
     MATCH (s:Student {id:$sid})-[:SIMILAR_TO]->(other:Student)
-    WITH other LIMIT 20
     MATCH (req:Requirement {major:$major})-[:REQUIRES]->(c:Course)
     OPTIONAL MATCH (other)-[:COMPLETED]->(c)
     RETURN c.code AS course, c.term AS suggestedTerm, COUNT(other) AS popularity
@@ -62,6 +66,52 @@ def four_year_plan(sid, major):
     """
     with driver.session() as session:
         return [dict(record) for record in session.run(query, sid=sid, major=major)]
+    
+
+def get_completed_courses(sid):
+    query = """
+    MATCH (s:Student {id:$sid})-[:COMPLETED]->(c:Course)
+    OPTIONAL MATCH (other:Student)-[:COMPLETED]->(c)
+    RETURN c.name AS name, COUNT(DISTINCT other) AS popularity
+    ORDER BY popularity DESC
+    """
+    with driver.session() as session:
+        return [dict(record) for record in session.run(query, sid=sid)]
+    
+def course_opportunity_scorer(opportunity, courses):
+    opportunity = opportunity.get("title", "").lower()
+
+    score = 0
+    scoreCounter = 0
+    for c in courses:
+        # ratio = fuzz.partial_ratio(c.lower(), opportunity)
+        ratio = fuzz.partial_ratio(c["name"].lower(), opportunity)
+        if ratio > 60:
+            scoreCounter += 1
+            score += ratio/100.0
+    return 0 if scoreCounter == 0 else (score/scoreCounter)
+
+
+
+def opportunity_recommender (sid):
+    completed_courses = get_completed_courses(sid)
+
+    url = "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/refs/heads/dev/.github/scripts/listings.json"
+    response = requests.get(url)
+    listings = list(filter(lambda listing: listing.get("active", False), response.json()))
+
+    scored_listings = [
+        (course_opportunity_scorer(listing, completed_courses), listing) for listing in listings
+    ]
+
+    sorted_top = sorted(
+        scored_listings, 
+        key=lambda l: l[0],
+        reverse=True
+    )
+
+    sorted_top_listings = [listing for (score, listing) in sorted_top[:3]]
+    return sorted_top_listings
 
 def switch_major(sid, new_major):
     query = """

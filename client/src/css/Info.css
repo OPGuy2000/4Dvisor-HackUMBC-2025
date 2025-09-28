@@ -15,3 +15,18 @@ width: 300px;
 height: auto; 
 }
 
+#information-container {
+    display: flex;
+    border-style: solid;
+}
+
+.information-child {
+    margin: auto;
+    text-align: center;
+    border-style: solid;
+    width: 60%;
+}
+
+.information-grandchild{
+
+}

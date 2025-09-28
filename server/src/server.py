@@ -14,15 +14,20 @@ def favicon():
 def students():
     return jsonify(core.list_students())
 
-@app.route("/api/student/<sid>")
+
+@app.route("/student/<sid>")
 def student_exists(sid):
     return jsonify(core.get_student(sid))
 
-@app.route("/api/plan", methods=["GET"])
-def api_plan():
-    sid = request.args.get("sid")
-    major = request.args.get("major")
-    return jsonify(core.four_year_plan(sid, major))
+
+@app.route("/plan/<sid>", methods=["GET"])
+def api_plan(sid):
+    return jsonify(core.four_year_plan(sid))
+
+
+@app.route("/api/student/<sid>/opportunity")
+def api_opportunity(sid):
+    return jsonify (core.opportunity_recommender(sid))
 
 @app.route("/api/switch", methods=["GET"])
 def api_switch():
@@ -41,6 +46,7 @@ def api_repo():
     sid = request.form["sid"]
     url = request.form["url"]
     return jsonify(core.add_repo(sid, url))
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)

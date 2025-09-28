@@ -1,6 +1,6 @@
 import requests
 import json
-
+from google import genai
 from rapidfuzz import fuzz, process
 
 import requests
@@ -13,6 +13,8 @@ import os
 from dotenv import load_dotenv
 from neo4j import GraphDatabase
 
+from datetime import datetime, timedelta
+
 
 load_dotenv()
 
@@ -21,6 +23,27 @@ driver = GraphDatabase.driver(
     database=os.getenv("DATABASE_NAME"),
     auth=(os.getenv("NEO4J_USER"), os.getenv("NEO4J_PASSWORD")),
 )
+
+
+def deepseekcall():
+    api_key = os.getenv("DEEPSEEK_API_KEY")
+
+    url = "https://api.deepseek.com/v1/chat/completions"
+
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+
+    payload = {
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": "Hello, DeepSeek!"}],
+        "temperature": 0.7,
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        print("DeepSeek Response:", response.json()["choices"][0]["message"]["content"])
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
 
 
 def get_completed_courses(sid):
@@ -64,8 +87,29 @@ def opportunity_recommender(sid):
 
     sorted_top = sorted(scored_listings, key=lambda l: l[0], reverse=True)
 
-    sorted_top_listings = [listing for (score, listing) in sorted_top[:3]]
+    sorted_top_listings = [listing for (score, listing) in sorted_top[:4]]
     return sorted_top_listings
+
+def get_similar_students(sid):
+    query = """
+    MATCH (s1:Student {id:$sid})-[simP:SIMILAR_PERFORMANCE]->(s2:Student)
+    OPTIONAL MATCH (s1)-[simL:SIMILAR_LEARNING_STYLE]->(s2)
+    RETURN s1.id AS sid1, s1.name AS sname, s2.id AS sid2, s2.name AS s2name, simP.similarity AS similarPerformance, simL.similarity AS similarLearning
+    """
+    with driver.session() as session:
+        return [dict(record) for record in session.run(query, sid=sid)]
+    
+def determine_buddies(sid):
+    similarity_data = get_similar_students(sid)
+    similar_students = [
+        (record["sid1"], record["sid2"], ((float(record["similarPerformance"]) + float(record["similarLearning"]))/2))
+        for record in similarity_data
+    ]
+
+    sorted_similar = sorted(similar_students, key=lambda l: l[0], reverse=True)
+    similar_top = [student for (student, other, simValue) in sorted_similar[:4]]
+    return similar_top
+
 
 
 # def suggest_clubs(driver, sid, category):
@@ -95,8 +139,10 @@ def get_student(sid):
         d.id AS degreeId,
         d.coreCreditsRequired AS coreCreditsRequired,
         d.electiveCreditsRequired AS electiveCreditsRequired,
+        s.enrollmentDate AS enrollmentDate,
         s.expectedGraduation AS expectedGraduation,
         s.learningStyle AS learningStyle,
+        s.preferredPace AS preferredPace,
         creditsCompleted,
         requirementsCompleted,
         totalRequirements,
@@ -107,6 +153,17 @@ def get_student(sid):
         record = result.single()
         return dict(record) if record else {}
 
+def ai_call(sid):
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    student_data = get_student(sid)
+
+    result = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[
+            "Maximum 3 or 4 sentences. Do not put in quote or \\n characters in the response. Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Also state what year you think they should realistically consider graduating in, based off the latest term that classes were planned for. Here is the data:\n"+json.dumps(student_data),
+        ],
+    )
+    return result.text
 
 def get_requirement_group_status(sid):
     """
@@ -389,46 +446,77 @@ def plan_semesters(courses, prereq_map, max_credits_per_sem=20):
     return semesters
 
 
-def four_year_plan(sid, max_credits_per_sem=20):
+def estimate_graduation_date(student, total_credits_remaining, max_credits_per_sem):
     """
-    Builds a four-year plan for a student.
-    - Pulls student info
-    - Pulls course recommendations (core, req groups, electives)
-    - Schedules them semester by semester using prereqs and max credits per semester
+    Estimate graduation date by adding the needed semesters to enrolledDate.
+    Assumes 2 semesters per year (fall/spring) ~6 months apart.
     """
+    # If you store enrolledDate as a string like '2023-08-20':
+    enrolled_str = student.get("enrollmentDate")
+    if not enrolled_str:
+        return None  # can't compute
+
+    try:
+        start_date = datetime.fromisoformat(enrolled_str)
+    except Exception:
+        return None
+
+    semesters_needed = int(
+        (total_credits_remaining + max_credits_per_sem - 1) // max_credits_per_sem
+    )
+    # each semester ~6 months (182 days) apart
+    est_grad_date = start_date + timedelta(days=semesters_needed * 182)
+    return est_grad_date.date().isoformat()
+
+
+def four_year_plan(sid):
     student = get_student(sid)
     if not student:
         return {"error": "Student not found"}
 
-    # Get recommended courses (core, requirement groups, electives)
+    preferred_pace = (student.get("preferredPace") or "").strip().lower()
+    if preferred_pace == "part-time":
+        max_credits_per_sem = 13
+    elif preferred_pace == "accelerated":
+        max_credits_per_sem = 20
+    else:
+        max_credits_per_sem = 17
+
+    # get recommendations
     recommendations = get_course_recommendations(sid)
 
-    # Combine all recommended courses into one list
+    # combine courses
     all_courses = (
         recommendations["core_courses"]
         + recommendations["requirement_group_courses"]
         + recommendations["electives"]
     )
 
-    # Build or fetch a prereq map: {courseId: [prereqCourseIds]}
-    # This assumes you have a helper to query the graph for prereqs.
+    # total credits still needed
+    credits_remaining = sum(c["credits"] for c in all_courses)
+
+    # prereq map as before…
     prereq_map = {}
     with driver.session() as session:
         for c in all_courses:
             q = """
-            MATCH (c:Course {id:$cid})<-[:PREREQUISITE_FOR]-(p:Course)
+            MATCH (p:Course)-[:PREREQ_FOR]->(c:Course {id:$cid})
             RETURN COLLECT(p.id) AS prereqs
             """
             rec = session.run(q, cid=c["courseId"]).single()
             prereq_map[c["courseId"]] = rec["prereqs"] if rec else []
 
-    # Plan semesters with the courses + prereq map
-    semesters = plan_semesters(
-        all_courses, prereq_map, max_credits_per_sem=max_credits_per_sem
+    semesters = plan_semesters(all_courses, prereq_map, max_credits_per_sem)
+
+    predicted_grad = estimate_graduation_date(
+        student, credits_remaining, max_credits_per_sem
     )
 
     return {
         "student": student,
+        "preferredPace": preferred_pace,
+        "maxCreditsPerSemester": max_credits_per_sem,
         "recommendations": recommendations,
         "semesters": semesters,
+        "predictedGraduation": predicted_grad,
     }

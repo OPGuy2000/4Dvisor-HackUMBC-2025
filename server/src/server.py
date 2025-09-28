@@ -1,6 +1,8 @@
 import core
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin   
+from google import genai
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -25,9 +27,17 @@ def api_plan(sid):
     return jsonify(core.four_year_plan(sid))
 
 
+@app.route("/ai-insights/<sid>")
+def ai_insights(sid):
+    return jsonify(core.ai_call(sid))
+
 @app.route("/api/student/<sid>/opportunity")
 def api_opportunity(sid):
     return jsonify (core.opportunity_recommender(sid))
+
+@app.route("/api/student/<sid>/similarStudents")
+def similar_students(sid):
+    return jsonify (core.determine_buddies(sid))
 
 @app.route("/api/switch", methods=["GET"])
 def api_switch():
@@ -46,6 +56,8 @@ def api_repo():
     sid = request.form["sid"]
     url = request.form["url"]
     return jsonify(core.add_repo(sid, url))
+
+
 
 
 if __name__ == "__main__":

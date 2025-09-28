@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   // API call to check if ID exists
   const checkIdExists = async (id: string): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:8000/api/student/${id}`);
+      const response = await fetch(`http://localhost:8000/student/${id}`);
       const result = await response.json();
       return Object.keys(result).length > 0;
     } catch (error) {

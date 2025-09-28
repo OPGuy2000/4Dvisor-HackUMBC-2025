@@ -3,9 +3,10 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="440px" height="189.9px" viewBox="0 0 440 189.9" style="enable-background:new 0 0 440 189.9;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#FF0000;}
-	.st1{fill:#FFFFFF;}
-	.st2{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st0{fill:#E6D49C;}
+	.st1{fill:#FFF9E6;}
+	.st2{fill:#FFFFFF;}
+	.st3{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
 </style>
 <g>
 	
@@ -199,7 +200,7 @@ HTt2jMP/AAdzq5cskGtFAAAAAElFTkSuQmCC" transform="matrix(1 0 0 1 -7 12.9495)">
 		<g>
 			<path class="st0" d="M62.42,134.94H8.07V101.4l47.99-73.1h40.76v75.68h13.07v30.96H96.82v13.76h-34.4V134.94z M62.42,103.98
 				V70.27h-1.55L40.06,102.6v1.38H62.42z"/>
-			<path d="M121.25,28.3h59c34.74,0,60.89,20.81,60.89,60.37s-26.14,60.03-60.89,60.03h-59V28.3z M175.94,117.74
+			<path class="st1" d="M121.25,28.3h59c34.74,0,60.89,20.81,60.89,60.37s-26.14,60.03-60.89,60.03h-59V28.3z M175.94,117.74
 				c18.92,0,27.18-11.35,27.18-29.24c0-17.89-8.26-29.24-28.55-29.24h-13.93v58.48H175.94z"/>
 		</g>
 	</g>
@@ -342,15 +343,15 @@ AAAAAElFTkSuQmCC" transform="matrix(1 0 0 1 230 82.9495)">
 	</image>
 	<g>
 		<g>
-			<path class="st1" d="M262.05,106.81l6.12,26.21h0.72l6.12-26.21h16.85l-12.24,40.68H257.3l-12.24-40.68H262.05z"/>
-			<path class="st1" d="M295.46,98.17h15.91v4.39h-15.91V98.17z M295.46,106.81h15.91v40.68h-15.91V106.81z"/>
-			<path class="st1" d="M337.43,137.7c1.44,0,2.3-0.79,2.3-1.94c0-1.44-0.94-2.02-2.3-2.02h-7.27c-8.5,0-14.04-4.39-14.04-12.75
+			<path class="st2" d="M262.05,106.81l6.12,26.21h0.72l6.12-26.21h16.85l-12.24,40.68H257.3l-12.24-40.68H262.05z"/>
+			<path class="st2" d="M295.46,98.17h15.91v4.39h-15.91V98.17z M295.46,106.81h15.91v40.68h-15.91V106.81z"/>
+			<path class="st2" d="M337.43,137.7c1.44,0,2.3-0.79,2.3-1.94c0-1.44-0.94-2.02-2.3-2.02h-7.27c-8.5,0-14.04-4.39-14.04-12.75
 				c0-10.01,7.13-14.19,14.62-14.19h21.31v9.72h-19.23c-1.37,0-2.3,0.72-2.3,1.87c0,1.37,0.94,2.16,2.3,2.16h8.64
 				c8.57,0,13.68,5.54,13.68,12.89c0,8.93-5.33,14.04-14.76,14.04h-22.9v-9.79H337.43z"/>
-			<path class="st1" d="M358.02,127.12c0-12.89,9.07-21.39,21.67-21.39c12.53,0,21.6,8.5,21.6,21.39c0,12.53-9.07,21.46-21.6,21.46
+			<path class="st2" d="M358.02,127.12c0-12.89,9.07-21.39,21.67-21.39c12.53,0,21.6,8.5,21.6,21.39c0,12.53-9.07,21.46-21.6,21.46
 				C365.66,148.58,358.02,139.65,358.02,127.12z M386.68,127.12c0-4.75-3.1-7.27-6.98-7.27c-4.03,0-7.06,2.59-7.06,7.27
 				c0,4.83,3.1,7.34,7.06,7.34C383.59,134.46,386.68,131.94,386.68,127.12z"/>
-			<path class="st1" d="M430.24,123.59c-4.82,0-8.14,3.24-8.14,9.22v14.69h-15.77v-40.68h14.47v9h0.58
+			<path class="st2" d="M430.24,123.59c-4.82,0-8.14,3.24-8.14,9.22v14.69h-15.77v-40.68h14.47v9h0.58
 				c2.16-6.7,6.55-10.08,12.89-10.08v18.43C433.41,123.88,432.04,123.59,430.24,123.59z"/>
 		</g>
 	</g>
@@ -399,7 +400,7 @@ kHsCS22sLuRZFMTo8+byCGD3bu/ukFgeDWyrth8K6Ud+5Ef+s/IHqWALiww5SUsAAAAASUVORK5C
 YII=" transform="matrix(1 0 0 1 235 39.9495)">
 	</image>
 	<g>
-		<circle class="st2" cx="272.61" cy="78.18" r="20"/>
+		<circle class="st3" cx="272.61" cy="78.18" r="20"/>
 	</g>
 </g>
 <g>
@@ -446,7 +447,7 @@ kHsCS22sLuRZFMTo8+byCGD3bu/ukFgeDWyrth8K6Ud+5Ef+s/IHqWALiww5SUsAAAAASUVORK5C
 YII=" transform="matrix(1 0 0 1 312 39.9495)">
 	</image>
 	<g>
-		<circle class="st2" cx="349.55" cy="78.18" r="20"/>
+		<circle class="st3" cx="349.55" cy="78.18" r="20"/>
 	</g>
 </g>
 <g>
@@ -466,7 +467,7 @@ PUuXj4AQKfKYnqw1hdM7af7Xo7LS5xGKvCYrU1Umz8+2IJzlIeoa3z9sy1TbnOkdrmyx3SBcexfw
 CgAtlSFcunRpWD/6vq8aTHzmmAAAAABJRU5ErkJggg==" transform="matrix(1 0 0 1 277 59.9495)">
 	</image>
 	<g>
-		<line class="st2" x1="292.61" y1="78.18" x2="329.55" y2="78.18"/>
+		<line class="st3" x1="292.61" y1="78.18" x2="329.55" y2="78.18"/>
 	</g>
 </g>
 <g>
@@ -495,8 +496,8 @@ ugAE9Wluf52bfTcL9kvjLmxrLUDN9x1Gd3DCri29qbFu4YRtgbR0je6hPOxhD3tYy/YXwWHmihFZ
 4wIAAAAASUVORK5CYII=" transform="matrix(1 0 0 1 255 1.9495)">
 	</image>
 	<g>
-		<line class="st1" x1="272.61" y1="58.18" x2="311.08" y2="19.71"/>
 		<line class="st2" x1="272.61" y1="58.18" x2="311.08" y2="19.71"/>
+		<line class="st3" x1="272.61" y1="58.18" x2="311.08" y2="19.71"/>
 	</g>
 </g>
 <g>
@@ -527,8 +528,8 @@ vMeG3jRF1/2EBAfqv1anf77z/q138h3bDpm532Ws+feKGx7bcu9XpWuS2JI56GP7SORMJpPJhMlf
 omGevLhB554AAAAASUVORK5CYII=" transform="matrix(1 0 0 1 352 1.9495)">
 	</image>
 	<g>
-		<line class="st1" x1="369.55" y1="78.18" x2="428.01" y2="19.71"/>
 		<line class="st2" x1="369.55" y1="78.18" x2="428.01" y2="19.71"/>
+		<line class="st3" x1="369.55" y1="78.18" x2="428.01" y2="19.71"/>
 	</g>
 </g>
 <g>
@@ -549,7 +550,7 @@ IdhGJaVu6lzrTNNSrl8zQBVYx9og7zx8avcg1q6HvvKSTsr+7Pfbf9syoiunXZKJAAAAAElFTkSu
 QmCC" transform="matrix(1 0 0 1 293 3.9495)">
 	</image>
 	<g>
-		<line class="st2" x1="311.08" y1="19.71" x2="311.08" y2="39.78"/>
+		<line class="st3" x1="311.08" y1="19.71" x2="311.08" y2="39.78"/>
 	</g>
 </g>
 <g>
@@ -570,7 +571,7 @@ IdhGJaVu6lzrTNNSrl8zQBVYx9og7zx8avcg1q6HvvKSTsr+7Pfbf9syoiunXZKJAAAAAElFTkSu
 QmCC" transform="matrix(1 0 0 1 410 3.9495)">
 	</image>
 	<g>
-		<line class="st2" x1="428.01" y1="19.71" x2="428.01" y2="39.78"/>
+		<line class="st3" x1="428.01" y1="19.71" x2="428.01" y2="39.78"/>
 	</g>
 </g>
 </svg>

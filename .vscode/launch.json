@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": "Python Debugger: Server",
+            "type": "debugpy",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:5173",
-            "webRoot": "${workspaceFolder}"
-        }
+            "program": "src/server.py",
+            "cwd": "${workspaceFolder}/server",
+            "python": "${command:python.interpreterPath}",
+            "console": "integratedTerminal"
+        },
+        // {
+        //     "type": "chrome",
+        //     "request": "launch",
+        //     "name": "Launch Chrome against localhost",
+        //     "url": "http://localhost:5173",
+        //     "webRoot": "${workspaceFolder}"
+        // }
     ]
 }

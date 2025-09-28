@@ -18,16 +18,19 @@ const Carousel: React.FC<CarouselProps> = ({ coursePlan, onSelectCourse }) => {
 
           return (
             <div key={termIndex} className={`carousel-item ${termIndex === 0 ? "active" : ""}`}>
-              <h2>{termName}</h2>
+              <h2 className="termName">{termName}</h2>
               <div className="list-group">
                 {classes.map((cls, clsIndex) => (
                   <button
                     key={clsIndex}
                     type="button"
-                    className="list-group-item list-group-item-action"
+                    className="list-group-item list-group-item-action class-button"
+                    style={{ margin: "1px" }}
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={() => onSelectCourse?.(cls)}
+                    onMouseEnter={e => (e.currentTarget.style.boxShadow = "0 0 12px rgba(0, 4, 219, 0.77)")}
+                    onMouseLeave={e => (e.currentTarget.style.boxShadow = "")}
                   >
                     {cls[0]}
                   </button>

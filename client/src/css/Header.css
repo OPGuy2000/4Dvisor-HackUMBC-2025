@@ -1,18 +1,20 @@
-#navbar-toggler {
+header {
     font-family: "Bungee", sans-serif;
-    font-size: 1.5rem;
-    align-items: center;
     display: flex;
-  }
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: #5a4e3c; /* warm brown text */
+}
 
-  #fast {
-    color: red;
-    fill: red;
-  }
-  :root[data-bs-theme="light"] #theme-button {
-    color: #333;
-  }
+/* Logo color */
+header #fast {
+    fill: #f7d370; /* golden yellow */
+    color: #f7d370;
+}
 
-  :root[data-bs-theme="dark"] #theme-button {
-    color: red;
-  }
+/* Buttons or icons inside header */
+header button, header svg {
+    color: inherit; /* inherit header color */
+}

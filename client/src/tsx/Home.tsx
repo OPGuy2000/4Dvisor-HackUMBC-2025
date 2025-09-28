@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   // API call to check if ID exists
   const checkIdExists = async (id: string): Promise<boolean> => {
     try {
-      const response = await fetch(`http://localhost:8000/api/student/${id}`);
+      const response = await fetch(`http://localhost:8000/student/${id}`);
       const result = await response.json();
       return Object.keys(result).length > 0;
     } catch (error) {
@@ -66,8 +66,9 @@ const Home: React.FC = () => {
               const doesTheIDExist: boolean = await checkIdExists(value)
 
               if (isValid) {
+                const studentId = document.querySelector("div input")?.value 
                 if(doesTheIDExist || value === "XX00000")
-                  window.location.href = "/profile";
+                  window.location.href = "/profile?Id=" + studentId;
                 else 
                   alert("There are no students with that ID! Please try again.");
               } else {

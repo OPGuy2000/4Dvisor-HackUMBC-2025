@@ -23,6 +23,31 @@ driver = GraphDatabase.driver(
 )
 
 
+def deepseekcall():
+    api_key = os.getenv("DEEPSEEK_API_KEY")
+
+    url = "https://api.deepseek.com/v1/chat/completions"
+
+    headers = {
+    "Authorization": f"Bearer {api_key}",
+    "Content-Type": "application/json"
+}
+
+    payload = {
+        "model": "deepseek-chat",
+        "messages": [{"role": "user", "content": "Hello, DeepSeek!"}],
+        "temperature": 0.7
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        print("DeepSeek Response:", response.json()["choices"][0]["message"]["content"])
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+
+        
+
 def get_completed_courses(sid):
     query = """
     MATCH (s:Student {id:$sid})-[:COMPLETED]->(c:Course)
@@ -95,6 +120,7 @@ def get_student(sid):
         d.id AS degreeId,
         d.coreCreditsRequired AS coreCreditsRequired,
         d.electiveCreditsRequired AS electiveCreditsRequired,
+        s.enrollmentDate AS enrollmentDate,
         s.expectedGraduation AS expectedGraduation,
         s.learningStyle AS learningStyle,
         creditsCompleted,

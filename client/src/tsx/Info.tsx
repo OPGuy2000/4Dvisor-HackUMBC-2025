@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Header from '../components/Header';
 import '../css/Info.css';
 import teja from '../assets/teja.png';
@@ -7,6 +8,7 @@ import Carousel from "../components/Carousel";
 import type { TermObject, Course } from "../components/Carousel";
 
 const Info: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const coursePlan: TermObject[] = [
         {
@@ -32,6 +34,24 @@ const Info: React.FC = () => {
 
     // STATE TO STORE SELECTED COURSE FOR MODAL
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const id = searchParams.get("Id");
+            const response = await fetch(`http://localhost:8000/api/student/${id}`); // Replace with your API endpoint
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCreditCompleted(data.creditsCompleted);
+            setDegreeReqsCompleted(data.percentRequirementsCompleted);
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          } 
+        };
+        fetchData();
+      }, []);
 
     const numberToColor = (num: number): string => {
         switch (true) {

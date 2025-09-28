@@ -66,8 +66,9 @@ const Home: React.FC = () => {
               const doesTheIDExist: boolean = await checkIdExists(value)
 
               if (isValid) {
+                const studentId = document.querySelector("div input")?.value 
                 if(doesTheIDExist || value === "XX00000")
-                  window.location.href = "/profile";
+                  window.location.href = "/profile?Id=" + studentId;
                 else 
                   alert("There are no students with that ID! Please try again.");
               } else {

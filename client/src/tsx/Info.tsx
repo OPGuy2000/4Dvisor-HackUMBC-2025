@@ -9,13 +9,14 @@ import type { TermObject, Course } from "../components/Carousel";
 
 type Student = {
     name: string;
+    id: string;
     degreeId: string;
     coreCreditsRequired: number;
     electiveCreditsRequired: number;
     expectedGraduation: string;
     enrollmentDate: string;
     learningStyle: string;
-    creditCompleted: number;
+    creditsCompleted: number;
     requirementsCompleted: number;
     totalRequirements: number;
     percentRequirementsCompleted: number;
@@ -26,7 +27,7 @@ function transformSemesters(data) {
   return data.semesters.map((sem, idx: number) => {
     // alternate between Fall / Spring
     const term = idx % 2 === 0 ? "Fall" : "Spring";
-    const year = startYear + Math.floor(idx / 2);
+    const year = startYear + Math.floor(idx / 2) + (idx % 2 === 0 ? 0 : 1); 
     const semesterName = `${term} ${year}`;
 
     // restructure courses
@@ -47,13 +48,14 @@ const Info: React.FC = () => {
     const [coursePlan, setCoursePlan] = useState<TermObject[]>([]);
     const [student, setStudent] = useState<Student>({
         name: "string",
+        id: "MEEP",
         degreeId: "safd",
         coreCreditsRequired: 21,
         electiveCreditsRequired: 23,
         expectedGraduation: "string",
         enrollmentDate: "string",
         learningStyle: "string",
-        creditCompleted: 32,
+        creditsCompleted: 32,
         requirementsCompleted: 32,
         totalRequirements: 23,
         percentRequirementsCompleted: 0.7
@@ -77,6 +79,7 @@ const Info: React.FC = () => {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             const student = await response.json();
+            // console.log(student.creditCompleted)
             setStudent(student);
           } catch (error) {
             console.error('Error fetching data:', error);
@@ -103,8 +106,8 @@ const Info: React.FC = () => {
                 <div id="student-card" className="splitscreen-half" style={{ flex: 1 }}>
                     <div className="card">
                         <div className="card-body" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-                            <h5 id="personName" className="card-title">Teja Krishna Anumalasetty</h5>
-                            <h6 id="studentID" className="card-subtitle mb-2 text-body-secondary">ID: XX00000</h6>
+                            <h5 id="personName" className="card-title">{student.name}</h5>
+                            <h6 id="studentID" className="card-subtitle mb-2 text-body-secondary">ID: {student.id}</h6>
                             <img
                                 className="rounded-image"
                                 src={teja}
@@ -119,24 +122,24 @@ const Info: React.FC = () => {
                             {/* Wrap radial circles in a flex container */}
                             <div className="radial-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "2em", marginTop: "1em" }}>
                                 <RadialCircle
-                                    progress={student.creditCompleted}
+                                    progress={student.creditsCompleted}
                                     size={120}
                                     strokeWidth={12}
-                                    fillColor={numberToColor(student.creditCompleted)}
+                                    fillColor={numberToColor(student.creditsCompleted)}
                                 >
-                                    <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.creditCompleted}%</span><br />
-                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Credits 102/120</span>
+                                    <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.creditsCompleted}%</span><br />
+                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Credits {student.creditsCompleted}/120</span>
                                 </RadialCircle>
 
-                                <RadialCircle
+                                {/* <RadialCircle
                                     progress={student.percentRequirementsCompleted}
                                     size={120}
                                     strokeWidth={12}
                                     fillColor={numberToColor(student.percentRequirementsCompleted)}
                                 >
                                     <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.percentRequirementsCompleted}%</span><br />
-                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Degree Reqs 36/80</span>
-                                </RadialCircle>
+                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Degree Reqs {student.requirementsCompleted}/{student.totalRequirements}</span>
+                                </RadialCircle> */}
                             </div>
                         </div>
                     </div>

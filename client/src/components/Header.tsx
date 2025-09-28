@@ -68,51 +68,17 @@ const Header: React.FC = () => {
 
   return (
     <div className="Header">
-    <nav className="navbar bg-body-tertiary fixed-top">
+    <nav className="navbar bg-body-tertiary ">
         <div className="container d-flex align-items-center">
           <button
-            className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
             id="navbar-toggler"
+            onClick={() => (window.location.href = "/")}
           >
             <div>
-              <img src={advisorLogo} alt="4dvisor Logo" id="fast" style={{ height: "2em", color: "blue"}} />
+              <img src={advisorLogo} alt="4dvisor Logo" id="fast" style={{ height: "2em"}} />
             </div>
           </button>
-
-          <div className="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  aria-current="page"
-                  href="/"
-                >
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Search
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  History
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  About
-                </a>
-              </li>
-            </ul>
-          </div>
 
           <button
             className="btn position-relative ms-auto"
@@ -120,6 +86,7 @@ const Header: React.FC = () => {
             onClick={handleClick}
             aria-label="Toggle Dark/Light/System Mode"
             id="theme-button"
+            
           >
             {theme === "system" && <ComputerIcon />}
             {getIcon()}

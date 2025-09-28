@@ -3,6 +3,11 @@ import json
 
 from rapidfuzz import fuzz, process
 
+import requests
+import json
+
+from rapidfuzz import fuzz, process
+
 import os
 
 from dotenv import load_dotenv

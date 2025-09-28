@@ -27,3 +27,6 @@ bun.lock
 venv
 build
 *.egg-info
+.venv
+__pycache__
+.env

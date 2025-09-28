@@ -111,8 +111,8 @@ const Info: React.FC = () => {
     const listOpportunities = opportunities?.filter(o => o.active).map(opportunity =>
         <div className="card-body">
             <h5 className="card-title"><a href='https://www.google.com'>{opportunity.company_name} - {opportunity.title}</a></h5>
-            <h6 className="card-subtitle mb-2 text-body-secondary">Posted: {String(opportunity.date_posted).slice(4,5)}/{String(opportunity.date_posted).slice(5,7)}/{String(opportunity.date_posted).slice(7,9)}</h6>
-            <p className="card-text">Location: {opportunity.locations.join(",")} <br></br>Term: {opportunity.terms.join(",")}</p>
+            <h6 className="card-subtitle mb-2 text-body-secondary">Posted: {(new Date(opportunity.date_posted * 1000)).toLocaleDateString('en-GB')}</h6>
+            <p className="card-text">Location: {opportunity.locations.join(", ")} <br></br>Term: {opportunity.terms.join(", ")}</p>
         </div>
     )
 

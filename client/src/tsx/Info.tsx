@@ -103,8 +103,6 @@ const Info: React.FC = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const student = await response.json();
-                setStudent(student);
 
                 // Fetch AI insights
                 setAiLoading(true);
@@ -127,7 +125,7 @@ const Info: React.FC = () => {
 
     const listOpportunities = opportunities?.filter(o => o.active).map(opportunity =>
         <div className="card-body">
-            <h5 className="card-title"><a href='https://www.google.com'>{opportunity.company_name} - {opportunity.title}</a></h5>
+            <h5 className="card-title"><a href={opportunity.url}>{opportunity.company_name} - {opportunity.title}</a></h5>
             <h6 className="card-subtitle mb-2 text-body-secondary">Posted: {(new Date(opportunity.date_posted * 1000)).toLocaleDateString('en-GB')}</h6>
             <p className="card-text">Location: {opportunity.locations.join(", ")} <br></br>Term: {opportunity.terms.join(", ")}</p>
         </div>

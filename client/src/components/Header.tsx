@@ -5,7 +5,7 @@ const Header: React.FC = () => {
   return (
     <header className="Header">
       <nav className="navbar">
-        <div className="container d-flex align-items-center">
+        <div className="container d-flex align-items-center fixed-top">
           <button
             type="button"
             id="navbar-toggler"
@@ -16,7 +16,7 @@ const Header: React.FC = () => {
               src={advisorLogo}
               alt="4dvisor Logo"
               id="fast"
-              style={{ height: "2em" }}
+              style={{ height: "3em" }}
             />
           </button>
         </div>

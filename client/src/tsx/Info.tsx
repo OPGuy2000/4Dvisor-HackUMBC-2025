@@ -5,8 +5,29 @@ import teja from '../assets/teja.png';
 import RadialCircle from '../components/RadialCircle';
 import { useState } from 'react';
 import temp from "../assets/food_background.jpg"
+import Carousel from "../components/Carousel";
+import type { TermObject } from "../components/Carousel";
+
+
 
 const Info: React.FC = () => {
+
+    const coursePlan: TermObject[] = [
+  { "Fall 2025": [
+      ["CLAS170", "desc", 3, true],
+      ["ENES100", "desc", 3, false],
+      ["CHEM135", "desc", 3, true]
+    ]
+  },
+  { "Spring 2026": [
+      ["MATH141", "desc", 4, true],
+      ["PHYS161", "desc", 3, true],
+      ["PHYS167", "desc", 1, true]
+    ]
+  }
+];
+
+
 
     const [creditCompleted, setCreditCompleted] = useState(85);
     const [degreeReqsCompleted, setDegreeReqsCompleted] = useState(45);
@@ -59,47 +80,14 @@ const Info: React.FC = () => {
                 </div>
                 <div className='splitscreen-half' id="information-container" style={{ flex: 3 }}>
                     <div className='information-child' id="four-year-plan">
-
-                        <div id="carouselExample" className="carousel slide information-grandchild">
-                            <div className="carousel-inner" style={{ width: "80%", margin: "auto" }}>
-                                <div className="carousel-item active">
-                                    <h1>Fall 2025</h1>
-                                    <div className="list-group">
-                                        <button type="button" className="list-group-item list-group-item-action">MATH141</button>
-                                        <button type="button" className="list-group-item list-group-item-action">ENES100</button>
-                                        <button type="button" className="list-group-item list-group-item-action">CLAS170</button>
-                                        <button type="button" className="list-group-item list-group-item-action" >CHEM135</button>
-                                        <button type="button" className="list-group-item list-group-item-action" >UNIV100</button>
-
-                                    </div>
-                                </div>
-                                <div className="carousel-item">
-                                    <h1>Spring 2026</h1>
-                                    <div className="list-group">
-                                        <button type="button" className="list-group-item list-group-item-action">MATH004</button>
-                                        <button type="button" className="list-group-item list-group-item-action">MATH007</button>
-                                        <button type="button" className="list-group-item list-group-item-action">STAT100</button>
-                                        <button type="button" className="list-group-item list-group-item-action" >CMSC216</button>
-                                        <button type="button" className="list-group-item list-group-item-action" >CMNS100</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Next</span>
-                            </button>
-                        </div>
+                        <Carousel coursePlan={coursePlan} />
                     </div>
                 </div>
             </div>
-            
+
         </div>
 
-       
+
     );
 };
 

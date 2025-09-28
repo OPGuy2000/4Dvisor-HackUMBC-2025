@@ -16,17 +16,29 @@ height: auto;
 }
 
 #information-container {
-    display: flex;
-    border-style: solid;
+    /* display: flex; */
+    /* border-style: solid; */
+    overflow-y: scroll;
 }
 
 .information-child {
     margin: auto;
     text-align: center;
-    border-style: solid;
+    /* border-style: solid; */
     width: 60%;
+}
+
+#internships-research{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.interncard{
+    flex: 0 0 80%;
 }
 
 .information-grandchild{
 
 }
+

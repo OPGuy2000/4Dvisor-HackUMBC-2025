@@ -18,7 +18,7 @@ const Carousel: React.FC<CarouselProps> = ({ coursePlan, onSelectCourse }) => {
 
           return (
             <div key={termIndex} className={`carousel-item ${termIndex === 0 ? "active" : ""}`}>
-              <h1>{termName}</h1>
+              <h2>{termName}</h2>
               <div className="list-group">
                 {classes.map((cls, clsIndex) => (
                   <button

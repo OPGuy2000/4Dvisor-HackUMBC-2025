@@ -13,7 +13,9 @@ const Info: React.FC = () => {
             "Fall 2025": [
                 ["CLAS170", "desc", 3, true],
                 ["ENES100", "desc", 3, false],
-                ["CHEM135", "desc", 3, true]
+                ["CHEM135", "desc", 3, true],
+                ["CHEM145", "desc", 3, true],
+                ["CHEM167", "desc", 3, true],
             ]
         },
         {
@@ -45,7 +47,7 @@ const Info: React.FC = () => {
     return (
         <div className="Info" style={{ width: "100vw" }}>
             <Header />
-            <div style={{ display: "flex" }}>
+            <div id='main-container' style={{ display: "flex" }}>
                 <div className='splitscreen-half' style={{ flex: 1 }}>
                     <div className="card">
                         <div className="card-body">
@@ -70,13 +72,39 @@ const Info: React.FC = () => {
                 </div>
                 <div className='splitscreen-half' id="information-container" style={{ flex: 3 }}>
                     <div className='information-child' id="four-year-plan">
+                        <h1>4Planner</h1>
                         <Carousel coursePlan={coursePlan} onSelectCourse={setSelectedCourse} />
+                    </div>
+                    <div className='information-child' id="internships-research">
+                        <h1>Internships</h1>
+                        <div className="card interncard" style={{width: "18rem"}}>
+                            <div className="card-body">
+                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
+                                <p className="card-text">Locationhere City, MD</p>
+                            </div>
+                        </div>
+                        <div className="card interncard" style={{width: "18rem"}}>
+                            <div className="card-body">
+                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
+                                <p className="card-text">Locationhere City, MD</p>
+                            </div>
+                        </div>
+                        <div className="card interncard" style={{width: "18rem"}}>
+                            <div className="card-body">
+                                <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
+                                <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
+                                <p className="card-text">Locationhere City, MD</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* MODAL */}
             <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">

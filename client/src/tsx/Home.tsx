@@ -62,7 +62,7 @@ const Home: React.FC = () => {
               {invalidTextVisible && <div id="invalid-format-text">Invalid ID!</div>}
             </div>
 
-            <button id="tryit-button" type="button" className="btn btn-primary" onClick={async () => {
+            <button id="tryit-button" type="submit" className="btn btn-primary" onClick={async () => {
               const doesTheIDExist: boolean = await checkIdExists(value)
 
               if (isValid) {

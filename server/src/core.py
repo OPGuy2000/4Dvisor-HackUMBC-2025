@@ -7,11 +7,25 @@ load_dotenv()
 
 driver = GraphDatabase.driver(
     "bolt://localhost:7687",
+    database=os.getenv("NEO4J_DATABASE"),
     auth=(
         os.getenv("NEO4J_USER"),
         os.getenv("NEO4J_PASSWORD")
     )
 )
+
+def get_student(sid):
+    query = """
+    MATCH (s:Student {id:$sid})-[:PURSUING]->(d:Degree)
+    RETURN s.id AS id, s.name AS name, s.expectedGraduation AS expectedGraduation, d.name AS degree
+    """
+    with driver.session() as session:
+        result = session.run(query, sid=sid)
+        record = result.single()
+        if record:
+            return dict(record)
+        else:
+            return {}
 
 def list_students():
     query = """

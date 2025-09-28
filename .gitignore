@@ -27,3 +27,4 @@ bun.lock
 venv
 build
 *.egg-info
+.venv

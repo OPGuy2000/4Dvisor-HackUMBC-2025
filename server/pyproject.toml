@@ -25,6 +25,7 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "Flask>=3.1.2",
     "neo4j>=5.28.2",
+    "flask-cors>=6.0.1",
 ]
 
 # [project.scripts]

@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 
   // Local ID format validation
   const validateIdFormat = (id: string): boolean => {
-    return pattern.test(id) && id.length === 7;
+    return id.length === 7 && pattern.test(id);
   };
 
   // API call to check if ID exists
@@ -29,7 +29,7 @@ const Home: React.FC = () => {
     const newValue = e.target.value.toUpperCase(); // optional: force uppercase
     setValue(newValue);
 
-    const valid = validateIdFormat(newValue) && (await checkIdExists(newValue));
+    const valid = validateIdFormat(newValue);
     setIsValid(valid);
     setInvalidTextVisible(!valid && newValue.length === 7);
   };
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
               {invalidTextVisible && <div id="invalid-format-text">Invalid ID!</div>}
             </div>
 
-            <button id="tryit-button" type="button" className="btn btn-primary" onClick={() => {
+            <button id="tryit-button" type="button" className="btn btn-primary" onClick={async () => {
 
               /*                ===========================
                                 ===========================
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
                                 ===========================
                                 
               */
-              const doesTheIDExist: boolean = false;
+              const doesTheIDExist: boolean = await checkIdExists(value)
 
               if (isValid) {
                 if(doesTheIDExist || value === "XX00000")

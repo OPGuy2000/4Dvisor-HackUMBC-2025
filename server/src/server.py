@@ -29,6 +29,10 @@ def api_plan(sid):
 def api_opportunity(sid):
     return jsonify (core.opportunity_recommender(sid))
 
+@app.route("/api/student/<sid>/similarStudents")
+def similar_students(sid):
+    return jsonify (core.determine_buddies(sid))
+
 @app.route("/api/switch", methods=["GET"])
 def api_switch():
     sid = request.args.get("sid")

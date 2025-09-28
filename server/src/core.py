@@ -92,6 +92,27 @@ def opportunity_recommender(sid):
     sorted_top_listings = [listing for (score, listing) in sorted_top[:3]]
     return sorted_top_listings
 
+def get_similar_students(sid):
+    query = """
+    MATCH (s1:Student {id:$sid})-[simP:SIMILAR_PERFORMANCE]->(s2:Student)
+    OPTIONAL MATCH (s1)-[simL:SIMILAR_LEARNING_STYLE]->(s2)
+    RETURN s1.id AS sid1, s1.name AS sname, s2.id AS sid2, s2.name AS s2name, simP.similarity AS similarPerformance, simL.similarity AS similarLearning
+    """
+    with driver.session() as session:
+        return [dict(record) for record in session.run(query, sid=sid)]
+    
+def determine_buddies(sid):
+    similarity_data = get_similar_students(sid)
+    similar_students = [
+        (record["sid1"], record["sid2"], ((float(record["similarPerformance"]) + float(record["similarLearning"]))/2))
+        for record in similarity_data
+    ]
+
+    sorted_similar = sorted(similar_students, key=lambda l: l[0], reverse=True)
+    similar_top = [student for (student, other, simValue) in sorted_similar[:3]]
+    return similar_top
+
+
 
 # def suggest_clubs(driver, sid, category):
 #     query = """

@@ -60,11 +60,11 @@ const Home: React.FC = () => {
                                 ===========================
                                 
               */
-              const doesTheIDExist: boolean = true;
+              const doesTheIDExist: boolean = false;
 
               if (isValid) {
-                if(doesTheIDExist)
-                  window.location.href = "/foodform";
+                if(doesTheIDExist || value === "XX00000")
+                  window.location.href = "/profile";
                 else 
                   alert("There are no students with that ID! Please try again.");
               } else {
@@ -84,46 +84,7 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div id="signInPrompt" className="modal fade" tabIndex={-1}>
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Sign In</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div className="modal-body">
-              <p>Signing in with a Google account helps us keep track of your tastes and reccommend more options depending on your history. FastEats does work without signing in, but choices will only be saved locally.</p>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => {
-
-                  /*                ===========================
-                                    ===========================
-                                    BACKEND CALL #1 OCCURS HERE
-                                    ===========================
-                                    ===========================
-                                    
-                  */
-                  const doesTheIDExist: boolean = false;
-
-                  if (isValid && doesTheIDExist) {
-                    window.location.href = "/foodform";
-                  } else {
-                    alert("There are no students with that ID! Please try again.");
-                  }
-
-                }}
-              >
-                Use as Guest
-              </button>
-              <button type="button" className="btn btn-primary">Sign in with Google</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
     </div>
   );

@@ -17,7 +17,7 @@ driver = GraphDatabase.driver(
 def get_student(sid):
     query = """
     MATCH (s:Student {id:$sid})-[:PURSUING]->(d:Degree)
-    RETURN s.id AS id, s.name AS name, s.expectedGraduation AS expectedGraduation, d.name AS degree
+    RETURN s.id AS id, s.name AS name, s.expectedGraduation AS expectedGraduation, s.enrollmentDate as enrollmentDate, d.name AS degree
     """
     with driver.session() as session:
         result = session.run(query, sid=sid)

@@ -114,7 +114,7 @@ def ai_call(sid):
     result = client.models.generate_content(
         model="gemini-2.0-flash",
         contents=[
-            "Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Here is the data:\n"+json.dumps(student_data),
+            "Maximum 3 or 4 sentences. Do not put in quote or \\n characters in the response. Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Also state what year you think they should realistically consider graduating in, based off the latest term that classes were planned for. Here is the data:\n"+json.dumps(student_data),
         ],
     )
     return result.text

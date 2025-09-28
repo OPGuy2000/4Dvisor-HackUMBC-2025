@@ -30,3 +30,5 @@ build
 .venv
 __pycache__
 .env
+
+server/.env

@@ -1,6 +1,6 @@
 import requests
 import json
-
+from google import genai
 from rapidfuzz import fuzz, process
 
 import requests
@@ -23,28 +23,20 @@ driver = GraphDatabase.driver(
 )
 
 
-def deepseekcall():
-    api_key = os.getenv("DEEPSEEK_API_KEY")
+def ai_call(file):
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-    url = "https://api.deepseek.com/v1/chat/completions"
 
-    headers = {
-    "Authorization": f"Bearer {api_key}",
-    "Content-Type": "application/json"
-}
+    with open(file, "r", encoding="utf-8") as f:
+        student_data = json.load(f)
 
-    payload = {
-        "model": "deepseek-chat",
-        "messages": [{"role": "user", "content": "Hello, DeepSeek!"}],
-        "temperature": 0.7
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code == 200:
-        print("DeepSeek Response:", response.json()["choices"][0]["message"]["content"])
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
+    result = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[
+            "Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Here is the data:\n"+json.dumps(student_data),
+        ],
+    )
+    return f"{result.text=}"
 
         
 

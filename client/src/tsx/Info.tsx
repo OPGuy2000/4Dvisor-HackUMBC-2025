@@ -58,6 +58,7 @@ function transformSemesters(data) {
     });
 }
 
+
 const Info: React.FC = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -82,11 +83,13 @@ const Info: React.FC = () => {
     // STATE TO STORE SELECTED COURSE FOR MODAL
     const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
+    // State for AI insights
+    const [aiInsights, setAiInsights] = useState<string>("");
+    const [aiLoading, setAiLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-
                 const id = searchParams.get("Id");
                 const response = await fetch(`http://localhost:8000/student/${id}`);
                 const response2 = await fetch(`http://localhost:8000/plan/${id}`);
@@ -100,9 +103,23 @@ const Info: React.FC = () => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
+                const student = await response.json();
+                setStudent(student);
+
+                // Fetch AI insights
+                setAiLoading(true);
+                const aiResponse = await fetch(`http://localhost:8000/ai-insights/${id}`);
+                if (aiResponse.ok) {
+                    const aiBody = await aiResponse.text();
+                    setAiInsights(aiBody);
+                } else {
+                    setAiInsights("Could not fetch AI insights.");
+                }
+                setAiLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setAiInsights("Error fetching AI insights.");
+                setAiLoading(false);
             }
         };
         fetchData();
@@ -180,10 +197,12 @@ const Info: React.FC = () => {
                     </div>
                     <div className='information-child' id="advisor-summary">
                         <h1 id="fourplanner-header"><span style={{ color: "#fff8e0" }}>4</span>Dvisor Summary</h1>
-                        <div id="loading-spinner" className="spinner-border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                        <p id="advisor-output">The Advisor is thinking...</p>
+                        {aiLoading ? (
+                            <div id="loading-spinner" className="spinner-border" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        ) : null}
+                        <p id="advisor-output">{aiInsights}</p>
                     </div>
                     <div className='information-child' id="internships-research">
                         <h1>Internships</h1>

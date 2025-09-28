@@ -1,6 +1,6 @@
 import requests
 import json
-
+from google import genai
 from rapidfuzz import fuzz, process
 
 import requests
@@ -153,6 +153,17 @@ def get_student(sid):
         record = result.single()
         return dict(record) if record else {}
 
+def ai_call(sid):
+    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    student_data = get_student(sid)
+
+    result = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[
+            "Maximum 3 or 4 sentences. Do not put in quote or \\n characters in the response. Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Also state what year you think they should realistically consider graduating in, based off the latest term that classes were planned for. Here is the data:\n"+json.dumps(student_data),
+        ],
+    )
+    return result.text
 
 def get_requirement_group_status(sid):
     """

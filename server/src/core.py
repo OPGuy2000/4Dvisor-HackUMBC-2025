@@ -89,7 +89,7 @@ def opportunity_recommender(sid):
 
     sorted_top = sorted(scored_listings, key=lambda l: l[0], reverse=True)
 
-    sorted_top_listings = [listing for (score, listing) in sorted_top[:3]]
+    sorted_top_listings = [listing for (score, listing) in sorted_top[:4]]
     return sorted_top_listings
 
 def get_similar_students(sid):
@@ -109,7 +109,7 @@ def determine_buddies(sid):
     ]
 
     sorted_similar = sorted(similar_students, key=lambda l: l[0], reverse=True)
-    similar_top = [student for (student, other, simValue) in sorted_similar[:3]]
+    similar_top = [student for (student, other, simValue) in sorted_similar[:4]]
     return similar_top
 
 

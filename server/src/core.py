@@ -23,20 +23,7 @@ driver = GraphDatabase.driver(
 )
 
 
-def ai_call(file):
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-
-    with open(file, "r", encoding="utf-8") as f:
-        student_data = json.load(f)
-
-    result = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=[
-            "Analyze the student data below and provide insights on their college journey, including whether they are on track to graduate, any potential challenges they may face, and recommendations for improvement. Here is the data:\n"+json.dumps(student_data),
-        ],
-    )
-    return f"{result.text=}"
 
         
 

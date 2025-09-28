@@ -1,6 +1,8 @@
 import core
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin   
+from google import genai
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -46,6 +48,8 @@ def api_repo():
     sid = request.form["sid"]
     url = request.form["url"]
     return jsonify(core.add_repo(sid, url))
+
+
 
 
 if __name__ == "__main__":

@@ -63,14 +63,6 @@ const Home: React.FC = () => {
             </div>
 
             <button id="tryit-button" type="button" className="btn btn-primary" onClick={async () => {
-
-              /*                ===========================
-                                ===========================
-                                BACKEND CALL #1 OCCURS HERE
-                                ===========================
-                                ===========================
-                                
-              */
               const doesTheIDExist: boolean = await checkIdExists(value)
 
               if (isValid) {

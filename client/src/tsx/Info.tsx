@@ -23,23 +23,23 @@ type Student = {
 }
 
 function transformSemesters(data) {
-  const startYear = 2025; // starting academic year
-  return data.semesters.map((sem, idx: number) => {
-    // alternate between Fall / Spring
-    const term = idx % 2 === 0 ? "Fall" : "Spring";
-    const year = startYear + Math.floor(idx / 2) + (idx % 2 === 0 ? 0 : 1); 
-    const semesterName = `${term} ${year}`;
+    const startYear = 2025; // starting academic year
+    return data.semesters.map((sem, idx: number) => {
+        // alternate between Fall / Spring
+        const term = idx % 2 === 0 ? "Fall" : "Spring";
+        const year = startYear + Math.floor(idx / 2) + (idx % 2 === 0 ? 0 : 1);
+        const semesterName = `${term} ${year}`;
 
-    // restructure courses
-    const courses = sem.courses.map(c => [
-      c.courseId,
-      c.courseName,
-      c.credits,
-      c.requirementGroupId?.startsWith("REQ-CORE") || false
-    ]);
+        // restructure courses
+        const courses = sem.courses.map(c => [
+            c.courseId,
+            c.courseName,
+            c.credits,
+            c.requirementGroupId?.startsWith("REQ-CORE") || false
+        ]);
 
-    return { [semesterName]: courses };
-  });
+        return { [semesterName]: courses };
+    });
 }
 
 const Info: React.FC = () => {
@@ -67,26 +67,26 @@ const Info: React.FC = () => {
     useEffect(() => {
         //  console.log("hel")
         const fetchData = async () => {
-          try {
-           
-            const id = searchParams.get("Id");
-            const response = await fetch(`http://localhost:8000/student/${id}`);
-            const response2 = await fetch(`http://localhost:8000/plan/${id}`);
-        
-            setCoursePlan(transformSemesters(await response2.json()))
+            try {
 
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
+                const id = searchParams.get("Id");
+                const response = await fetch(`http://localhost:8000/student/${id}`);
+                const response2 = await fetch(`http://localhost:8000/plan/${id}`);
+
+                setCoursePlan(transformSemesters(await response2.json()))
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const student = await response.json();
+                // console.log(student.creditCompleted)
+                setStudent(student);
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
-            const student = await response.json();
-            // console.log(student.creditCompleted)
-            setStudent(student);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          } 
         };
         fetchData();
-      }, []);
+    }, []);
 
     const numberToColor = (num: number): string => {
         switch (true) {
@@ -149,6 +149,13 @@ const Info: React.FC = () => {
                     <div className='information-child' id="four-year-plan">
                         <h1 id="fourplanner-header"><span style={{ color: "#fff8e0" }}>4</span>Planner</h1>
                         <Carousel coursePlan={coursePlan} onSelectCourse={setSelectedCourse} />
+                    </div>
+                    <div className='information-child' id="advisor-summary">
+                        <h1 id="fourplanner-header"><span style={{ color: "#fff8e0" }}>4</span>Dvisor Summary</h1>
+                        <div id="loading-spinner" className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                        <p id="advisor-output">The Advisor is thinking...</p>
                     </div>
                     <div className='information-child' id="internships-research">
                         <h1>Internships</h1>

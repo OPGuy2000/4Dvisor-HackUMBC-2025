@@ -14,28 +14,6 @@ driver = GraphDatabase.driver(
     )
 )
 
-# MATCH (s:Student)-[:PURSUING]->(d:Degree)
-# WHERE s.id = "OU61933"
-# OPTIONAL MATCH (s)-[:COMPLETED]->(c:Course)
-# WITH s, d, SUM(c.credits) AS creditsCompleted, COLLECT(DISTINCT c) AS completedCourses
-# MATCH (r:RequirementGroup)-[:PART_OF]->(d)
-# OPTIONAL MATCH (r)-[:FULFILLS]->(req:Course)
-# WITH s, d, creditsCompleted, completedCourses, r, COLLECT(DISTINCT req) AS requiredCourses
-# WITH s, d, creditsCompleted, r,
-#      requiredCourses,
-#      SIZE([c IN completedCourses WHERE c IN requiredCourses]) AS requirementsCompleted,
-#      SIZE(requiredCourses) AS totalRequirements
-# RETURN s.id AS id,
-#        s.name AS name,
-#        d.name AS degree,
-#        creditsCompleted,
-#        r.id AS requirementGroupId,
-#        r.name AS requirementGroupName,
-#        requirementsCompleted,
-#        totalRequirements,
-#        requiredCourses
-# ORDER BY r.id
-
 def get_student(sid):
     query = """
     MATCH (s:Student {id:$sid})-[:PURSUING]->(d:Degree)
@@ -54,7 +32,7 @@ def get_student(sid):
         creditsCompleted,
         requirementsCompleted,
         totalRequirements,
-        (1.0 * requirementsCompleted / totalRequirements) AS percentRequirementsCompleted
+        (requirementsCompleted / totalRequirements) AS percentRequirementsCompleted
     """
     with driver.session() as session:
         result = session.run(query, sid=sid)

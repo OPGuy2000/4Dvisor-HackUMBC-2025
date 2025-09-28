@@ -5,6 +5,11 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/favicon.ico')
+def favicon():
+    # You can return an empty response or a small, transparent image
+    return "", 204  # Returns an empty response with a No Content status
+
 @app.route("/api")
 def students():
     return jsonify(core.list_students())

@@ -100,54 +100,74 @@ const Info: React.FC = () => {
         <div className="Info" style={{ width: "100vw" }}>
             <Header />
             <div id='main-container' style={{ display: "flex" }}>
-                <div className='splitscreen-half' style={{ flex: 1 }}>
+                <div id="student-card" className="splitscreen-half" style={{ flex: 1 }}>
                     <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Teja Krishna Anumalasetty</h5>
-                            <h6 className="card-subtitle mb-2 text-body-secondary">ID: XX00000</h6>
-                            <img className="rounded-image" src={teja} style={{ width: "10em", height: "10em" }} />
+                        <div className="card-body" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+                            <h5 id="personName" className="card-title">Teja Krishna Anumalasetty</h5>
+                            <h6 id="studentID" className="card-subtitle mb-2 text-body-secondary">ID: XX00000</h6>
+                            <img
+                                className="rounded-image"
+                                src={teja}
+                                style={{ width: "10em", height: "10em" }}
+                            />
                             <p className="card-text">
                                 <b>Major:</b> {student.degreeId}<br />
                                 <b>Enrollment Date:</b> {student.enrollmentDate}<br />
                                 <b>Expected Graduation:</b> {student.expectedGraduation}
                             </p>
-                            <RadialCircle progress={student.creditCompleted} size={120} strokeWidth={12} fillColor={numberToColor(student.creditCompleted)}>
-                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.creditCompleted}%</span><br />
-                                <span style={{ fontSize: "10px", fontWeight: "bold" }}>Credits 102/120</span>
-                            </RadialCircle>
-                            <RadialCircle progress={student.percentRequirementsCompleted} size={120} strokeWidth={12} fillColor={numberToColor(student.percentRequirementsCompleted)}>
-                                <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.percentRequirementsCompleted}%</span><br />
-                                <span style={{ fontSize: "10px", fontWeight: "bold" }}>Degree Reqs 36/80</span>
-                            </RadialCircle>
+
+                            {/* Wrap radial circles in a flex container */}
+                            <div className="radial-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "2em", marginTop: "1em" }}>
+                                <RadialCircle
+                                    progress={student.creditCompleted}
+                                    size={120}
+                                    strokeWidth={12}
+                                    fillColor={numberToColor(student.creditCompleted)}
+                                >
+                                    <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.creditCompleted}%</span><br />
+                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Credits 102/120</span>
+                                </RadialCircle>
+
+                                <RadialCircle
+                                    progress={student.percentRequirementsCompleted}
+                                    size={120}
+                                    strokeWidth={12}
+                                    fillColor={numberToColor(student.percentRequirementsCompleted)}
+                                >
+                                    <span style={{ fontSize: "24px", fontWeight: "bold" }}>{student.percentRequirementsCompleted}%</span><br />
+                                    <span style={{ fontSize: "10px", fontWeight: "bold" }}>Degree Reqs 36/80</span>
+                                </RadialCircle>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div className='splitscreen-half' id="information-container" style={{ flex: 3 }}>
                     <div className='information-child' id="four-year-plan">
-                        <h1>4Planner</h1>
+                        <h1 id="fourplanner-header"><span style={{ color: "#fff8e0" }}>4</span>Planner</h1>
                         <Carousel coursePlan={coursePlan} onSelectCourse={setSelectedCourse} />
                     </div>
                     <div className='information-child' id="internships-research">
                         <h1>Internships</h1>
-                        <div className="card interncard" style={{width: "18rem"}}>
+                        <div className="card interncard" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD</p>
+                                <p className="card-text">Locationhere City, MD <br></br>Term: Winter 2025-26</p>
                             </div>
                         </div>
-                        <div className="card interncard" style={{width: "18rem"}}>
+                        <div className="card interncard" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD</p>
+                                <p className="card-text">Locationhere City, MD <br></br>Term: Summer 2026</p>
                             </div>
                         </div>
-                        <div className="card interncard" style={{width: "18rem"}}>
+                        <div className="card interncard" style={{ width: "18rem" }}>
                             <div className="card-body">
                                 <h5 className="card-title"><a href='https://www.google.com'>Company Name Here - Position</a></h5>
                                 <h6 className="card-subtitle mb-2 text-body-secondary">Posted: 6/7/25</h6>
-                                <p className="card-text">Locationhere City, MD</p>
+                                <p className="card-text">Locationhere City, MD <br></br>Term: FY 2026</p>
                             </div>
                         </div>
                     </div>

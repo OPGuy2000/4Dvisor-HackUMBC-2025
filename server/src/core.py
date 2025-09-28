@@ -50,21 +50,23 @@ def four_year_plan(sid, major):
 
 def switch_major(sid, new_major):
     query = """
-    MATCH (req:Requirement {major:$new_major})-[:REQUIRES]->(c:Course)
+    MATCH (d:Degree {name:$new_major})-[:LEADS_TO]->(:RequirementGroup)-[:REQUIRES]->(c:Course)
     WHERE NOT EXISTS { MATCH (s:Student {id:$sid})-[:COMPLETED]->(c) }
-    RETURN c.code AS required, c.name AS course
+    RETURN c.id AS requiredCourse, 
+           c.name AS courseName
+    ORDER BY c.id
     """
     with driver.session() as session:
         return [dict(record) for record in session.run(query, sid=sid, new_major=new_major)]
 
-def suggest_clubs(sid, category):
-    query = """
-    MATCH (s:Student {id:$sid})-[:SIMILAR_TO]->(other:Student)-[:MEMBER_OF]->(c:Club {category:$category})
-    RETURN c.name AS club, COUNT(other) AS popularity
-    ORDER BY popularity DESC
-    """
-    with driver.session() as session:
-        return [dict(record) for record in session.run(query, sid=sid, category=category)]
+# def suggest_clubs(driver, sid, category):
+#     query = """
+#     MATCH (s:Student {id:$sid})-[:SIMILAR_TO]->(other:Student)-[:MEMBER_OF]->(c:Club {category:$category})
+#     RETURN c.name AS club, COUNT(other) AS popularity
+#     ORDER BY popularity DESC
+#     """
+#     with driver.session() as session:
+#         return [dict(record) for record in session.run(query, sid=sid, category=category)]
 
 def add_repo(sid, url):
     query = """
